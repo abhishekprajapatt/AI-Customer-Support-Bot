@@ -1,12 +1,25 @@
-const db = require("../database");
+const SupportTicket = require('../models/supportModel');
 
-async function createTicket(userId, issue) {
-    const query = "INSERT INTO support_tickets (user_id, issue, status) VALUES (?, ?, 'Open')";
-    await db.run(query, [userId, issue]);
-}
+// Create a new support ticket
+exports.createTicket = async (req, res) => {
+    try {
+        const { user, issue } = req.body;
 
-async function getAllTickets() {
-    return db.all("SELECT * FROM support_tickets");
-}
+        const ticket = new SupportTicket({ user, issue });
+        await ticket.save();
 
-module.exports = { createTicket, getAllTickets };
+        res.status(201).json({ message: "Support ticket created", ticket });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to create support ticket", details: error.message });
+    }
+};
+
+// Get all support tickets
+exports.getAllTickets = async (req, res) => {
+    try {
+        const tickets = await SupportTicket.find();
+        res.status(200).json(tickets);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch tickets", details: error.message });
+    }
+};
