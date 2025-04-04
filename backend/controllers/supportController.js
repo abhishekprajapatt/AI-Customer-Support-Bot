@@ -1,6 +1,5 @@
 const SupportTicket = require('../models/supportModel');
 
-// Create a new support ticket
 exports.createTicket = async (req, res) => {
     try {
         const { user, issue } = req.body;
@@ -14,7 +13,6 @@ exports.createTicket = async (req, res) => {
     }
 };
 
-// Get all support tickets
 exports.getAllTickets = async (req, res) => {
     try {
         const tickets = await SupportTicket.find();
