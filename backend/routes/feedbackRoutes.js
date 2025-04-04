@@ -5,6 +5,7 @@ const feedbackController = require('../controllers/feedbackController');
 // Route to submit feedback
 router.post('/submit', feedbackController.submitFeedback);
 
+
 // Route to fetch all feedbacks
 router.get('/', feedbackController.getAllFeedback);
 
